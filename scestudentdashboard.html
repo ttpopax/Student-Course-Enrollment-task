@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Available Courses</h1>
+    <div id="courses"></div>
+    <script>
+        async function loadCourses() {
+            const response = await fetch("http://localhost:5432/api/student/courses", {
+                headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+            });
+            const courses = await response.json();
+            courses.forEach(course => {
+                document.getElementById("courses").innerHTML += `
+                    <div>
+                        <h3>${course.title}</h3>
+                        <button onclick="enroll(${course.id})">Enroll</button>
+                    </div>
+                `;
+            });
+        }
+        loadCourses();
+    </script>
+</body>
+</html>
